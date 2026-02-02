@@ -128,7 +128,7 @@
       font-size: var(--text-size); 
       box-sizing: border-box;
     }
-    body.high-contrast input, body.high-contrast select, body.high-contrast textarea {
+    body.high-contrast input, select, textarea {
       background: #fff; border: 3px solid #000; color: #000;
     }
 
@@ -252,7 +252,6 @@
 </head>
 <body>
 
-<!-- Accessibility Toolbar -->
 <div class="access-toolbar">
   <button class="access-btn" onclick="toggleHighContrast()">🎨 High Contrast</button>
   <button class="access-btn" onclick="toggleDyslexia()">📖 Dyslexia Font</button>
@@ -293,15 +292,15 @@
 
   <section id="step2" class="card">
     <h2>2. The Context</h2>
-    <p>Watch this video to learn about the author and her work:</p>
+    <p>Watch this video to understand the background of the conflict:</p>
     
     <div class="video-box">
       <p style="font-size:2rem; margin:10px 0;">📺</p>
-      <p style="font-weight:bold; color:var(--ukraine-yellow); margin:10px 0;">Main Introduction Video</p>
-      <a href="https://drive.google.com/file/d/1JIfnCUm9_4gtMHmmmR-S4GNU2uZs7B9W/view?usp=drive_link" target="_blank" class="vid-link">
-        🎬 Watch Introduction Video
+      <p style="font-weight:bold; color:var(--ukraine-yellow); margin:10px 0;">War in Ukraine Explained</p>
+      <a href="https://www.youtube.com/watch?v=8NFl7yB7EW8" target="_blank" class="vid-link">
+        🎬 Watch Explainer Video (YouTube)
       </a>
-      <p style="font-size:0.85rem; margin-top:10px; opacity:0.8;">Click the button above to watch in Google Drive</p>
+      <p style="font-size:0.85rem; margin-top:10px; opacity:0.8;">Click the button above to watch</p>
     </div>
 
     <p style="margin-top:25px;"><strong>After watching the video, answer these questions:</strong></p>
@@ -424,11 +423,12 @@
 </div>
 
 <script>
+  // Updated questions to match "War in Ukraine explained" (8NFl7yB7EW8)
   const VIDEO_QUESTIONS = [
-    { prompt: "What is the primary motivation for the author's writing topics?", choices: ["Giving voice to 'hidden history'", "Writing action novels", "Documenting modern politics", "Teaching geography"], correct: 0 },
-    { prompt: "Which historical event is central to 'Winterkill'?", choices: ["The Holodomor (Famine)", "World War I", "The Cold War", "The Orange Revolution"], correct: 0 },
-    { prompt: "Who is the primary audience for these books?", choices: ["Middle Grade / Young Adult", "University Professors", "Preschoolers", "Retired Historians"], correct: 0 },
-    { prompt: "The author mentions that history is often written by:", choices: ["The Victors", "The Losers", "The Librarians", "The Poets"], correct: 0 }
+    { prompt: "When did Russia launch its full-scale invasion of Ukraine according to the video?", choices: ["February 24, 2022", "July 4, 1991", "December 25, 2014", "January 1, 2000"], correct: 0 },
+    { prompt: "Before becoming an independent country in 1991, Ukraine was part of which large state?", choices: ["The Soviet Union", "The European Union", "The Ottoman Empire", "The United Kingdom"], correct: 0 },
+    { prompt: "What territory did Russia seize and annex from Ukraine in 2014?", choices: ["Crimea", "Kyiv", "Alaska", "Siberia"], correct: 0 },
+    { prompt: "What does the video identify as a major reason for the tension between the two countries?", choices: ["Ukraine wants to be closer to the West (NATO/EU)", "Ukraine invaded Russia first", "Russia wants to give Ukraine more land", "They are fighting over trade routes only"], correct: 0 }
   ];
 
   const SCAVENGER_QUESTIONS = [
