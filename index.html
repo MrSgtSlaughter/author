@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ukraine & Author Visit Interactive</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=OpenDyslexic&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #0f1218;
@@ -35,7 +35,7 @@
     }
 
     body.dyslexia-mode {
-      --font-main: 'OpenDyslexic', 'Comic Sans MS', sans-serif;
+      --font-main: 'Comic Sans MS', sans-serif;
       letter-spacing: 0.12em;
       word-spacing: 0.16em;
       line-height: 2;
@@ -80,7 +80,7 @@
       cursor: pointer;
       font-size: 0.9rem;
     }
-    .access-btn:hover { filter: brightness(1.2); transform: scale(1.05); }
+    .access-btn:hover { filter: brightness(1.2); }
     .access-btn.active { background: var(--ukraine-yellow); color: #000; font-weight: bold; }
 
     .container { max-width: 800px; margin: 60px auto 0; padding: 20px; }
@@ -138,25 +138,9 @@
       cursor: pointer; font-size: var(--text-size); 
       text-decoration: none; display: inline-block;
     }
-    .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn:hover { filter: brightness(1.1); }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .btn-secondary { background: #334155; font-size: 0.9rem; padding: 8px 16px; }
-
-    .video-wrapper { margin-bottom: 20px; }
-    .video-container {
-      position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
-      border-radius: 12px; background: #000; border: var(--glass-border);
-    }
-    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-    .vid-link { 
-      display: inline-block; 
-      margin-top: 8px; 
-      font-size: 0.85rem; 
-      color: var(--ukraine-yellow); 
-      text-decoration: underline; 
-      cursor: pointer;
-      font-weight: bold;
-    }
 
     .video-gallery { 
       display: grid; 
@@ -179,17 +163,12 @@
       transform: scale(1.05); 
       border-color: var(--accent); 
     }
-    .vid-thumb:focus {
-      outline: 3px solid var(--ukraine-yellow);
-      outline-offset: 2px;
-    }
     body.high-contrast .vid-thumb { 
       background: #f0f0f0; 
       border: 3px solid #000; 
       color: #000; 
     }
 
-    .scaffold-container { border-left: 4px solid var(--ukraine-yellow); padding-left: 20px; margin-top: 20px; }
     .scaffold-step { margin-bottom: 20px; opacity: 0.5; pointer-events: none; transition: opacity 0.3s; }
     .scaffold-step.active { opacity: 1; pointer-events: all; }
     .step-badge { 
@@ -210,24 +189,16 @@
       margin: 5px; 
       border-radius: 20px; 
       cursor: pointer;
-      font-size: var(--text-size);
     }
     .topic-btn.selected { background: var(--ukraine-blue); border-color: var(--ukraine-blue); color: white; }
-    body.high-contrast .topic-btn { background: #fff; border: 3px solid #000; color: #000; }
-    body.high-contrast .topic-btn.selected { background: var(--ukraine-yellow); border: 3px solid #000; }
 
     .mcq-option {
       padding: 15px; margin: 10px 0; background: rgba(255,255,255,0.05);
       border-radius: 8px; cursor: pointer; display: flex; align-items: center;
       border: 2px solid transparent;
-      transition: all 0.2s;
     }
-    .mcq-option:hover { background: rgba(255,255,255,0.1); transform: translateX(5px); }
+    .mcq-option:hover { background: rgba(255,255,255,0.1); }
     .mcq-option.selected { border-color: var(--ukraine-yellow); background: rgba(255, 221, 0, 0.1); }
-    .mcq-option:focus {
-      outline: 3px solid var(--ukraine-yellow);
-      outline-offset: 2px;
-    }
     .mcq-option::before {
       content: ''; width: 20px; height: 20px; border: 3px solid var(--text-muted);
       border-radius: 50%; margin-right: 15px; flex-shrink: 0;
@@ -252,44 +223,29 @@
     body.high-contrast .draggable-item { background: #fff; border: 3px solid #000; color: #000; }
 
     .hidden { display: none !important; }
-    
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
-    }
 
-    *:focus {
-      outline: 3px solid var(--ukraine-yellow);
-      outline-offset: 2px;
+    .vid-link {
+      display: inline-block;
+      margin: 10px 0;
+      padding: 10px 20px;
+      background: var(--ukraine-blue);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
     }
+    .vid-link:hover { filter: brightness(1.2); }
   </style>
 </head>
 <body>
 
 <!-- Accessibility Toolbar -->
-<div class="access-toolbar" role="toolbar" aria-label="Accessibility Options">
-  <button class="access-btn" onclick="toggleHighContrast()" aria-label="Toggle high contrast mode">
-    🎨 High Contrast
-  </button>
-  <button class="access-btn" onclick="toggleDyslexia()" aria-label="Toggle dyslexia-friendly font">
-    📖 Dyslexia Font
-  </button>
-  <button class="access-btn" onclick="toggleLargeText()" aria-label="Toggle large text">
-    🔍 Large Text
-  </button>
-  <button class="access-btn" onclick="readAloud()" aria-label="Read page aloud">
-    🔊 Read Aloud
-  </button>
-  <button class="access-btn" onclick="pauseSpeech()" aria-label="Pause reading">
-    ⏸️ Pause
-  </button>
+<div class="access-toolbar">
+  <button class="access-btn" onclick="toggleHighContrast()">🎨 High Contrast</button>
+  <button class="access-btn" onclick="toggleDyslexia()">📖 Dyslexia Font</button>
+  <button class="access-btn" onclick="toggleLargeText()">🔍 Large Text</button>
+  <button class="access-btn" onclick="readAloud()">🔊 Read Aloud</button>
+  <button class="access-btn" onclick="pauseSpeech()">⏸️ Pause</button>
 </div>
 
 <div class="container">
@@ -305,15 +261,15 @@
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
       <div>
         <label for="firstName">First Name</label>
-        <input type="text" id="firstName" placeholder="Jane" aria-required="true">
+        <input type="text" id="firstName" placeholder="Jane">
       </div>
       <div>
         <label for="lastName">Last Name</label>
-        <input type="text" id="lastName" placeholder="Doe" aria-required="true">
+        <input type="text" id="lastName" placeholder="Doe">
       </div>
     </div>
     <label for="period">Class Period</label>
-    <select id="period" aria-required="true">
+    <select id="period">
       <option value="" disabled selected>Select hour...</option>
       <option value="1st Hour">1st Hour</option>
       <option value="2nd Hour">2nd Hour</option>
@@ -324,33 +280,15 @@
 
   <section id="step2" class="card">
     <h2>2. The Context</h2>
-    <p>Watch the video to understand the background of the author's work.</p>
-    
-    <div class="video-wrapper">
-      <div class="video-container">
-        <!-- 
-        REPLACE "YOUR_VIDEO_ID" WITH YOUR YOUTUBE VIDEO ID
-        To get ID: Look at YouTube URL like https://www.youtube.com/watch?v=dQw4w9WgXcQ
-        The ID is: dQw4w9WgXcQ (everything after v=)
-        -->
-        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen 
-                aria-label="Main introduction video">
-        </iframe>
-      </div>
-      <a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID" target="_blank" class="vid-link">
-        Trouble playing? Click here to watch on YouTube.
-      </a>
-    </div>
-
-    <div id="video-quiz-container" role="group" aria-labelledby="quiz-heading"></div>
+    <p style="color:var(--ukraine-yellow); font-weight:bold;">📺 You'll watch a video introducing the author during the live visit on Wednesday, Feb 5th at 12:45 PM!</p>
+    <p>For now, answer these questions based on what you know or research about the author:</p>
+    <div id="video-quiz-container"></div>
   </section>
 
   <section id="step3" class="card">
     <h2>3. Scavenger Hunt</h2>
     <p>Explore the <a href="https://www.calla.com/wordpress/about-marsha/" target="_blank" style="color:var(--ukraine-yellow); font-weight:bold;">Author's Website</a> to find these answers.</p>
-    <div id="scavenger-quiz-container" role="group" aria-labelledby="scavenger-heading"></div>
+    <div id="scavenger-quiz-container"></div>
   </section>
 
   <section id="step4" class="card">
@@ -366,51 +304,61 @@
 
   <section id="step5" class="card">
     <h2>5. Trailer Ranking</h2>
-    <p>1. Click thumbnails below to watch each book trailer.<br>2. After watching all 5, drag the list items to rank them (#1 is Best).</p>
+    <p><strong>Click the links below to watch each book trailer. If a video doesn't load, click "Open in Drive".</strong></p>
     
-    <div class="video-gallery" role="list">
-      <!-- REPLACE THESE VIDEO IDs WITH YOUR YOUTUBE VIDEO IDs -->
-      <div class="vid-thumb" onclick="openVideo('YOUR_NAZIS_ID', 'Don\'t Tell the Nazis')" tabindex="0" role="button" aria-label="Watch Don't Tell the Nazis trailer">
-        <span style="font-size:2rem;">🎬</span><br>Don't Tell<br>the Nazis
+    <div class="video-gallery">
+      <div class="vid-thumb">
+        <span style="font-size:2rem;">🎬</span><br>
+        <strong>Don't Tell the Nazis</strong><br>
+        <a href="https://drive.google.com/file/d/1S4vBzKrRaGljhNcHtqBvKepHXj4d00rM/view?usp=sharing" target="_blank" class="vid-link" style="font-size:0.8rem; padding:5px 10px; margin-top:10px;">Open in Drive</a>
       </div>
-      <div class="vid-thumb" onclick="openVideo('YOUR_BOMBS_ID', 'Making Bombs')" tabindex="0" role="button" aria-label="Watch Making Bombs for Hitler trailer">
-        <span style="font-size:2rem;">🎬</span><br>Making<br>Bombs
+      <div class="vid-thumb">
+        <span style="font-size:2rem;">🎬</span><br>
+        <strong>Making Bombs</strong><br>
+        <a href="https://drive.google.com/file/d/13EDr_MAf4v8sqAQXhApkPVXPHHOOnlyI/view?usp=sharing" target="_blank" class="vid-link" style="font-size:0.8rem; padding:5px 10px; margin-top:10px;">Open in Drive</a>
       </div>
-      <div class="vid-thumb" onclick="openVideo('YOUR_STOLEN_ID', 'Stolen Girl')" tabindex="0" role="button" aria-label="Watch Stolen Girl trailer">
-        <span style="font-size:2rem;">🎬</span><br>Stolen<br>Girl
+      <div class="vid-thumb">
+        <span style="font-size:2rem;">🎬</span><br>
+        <strong>Stolen Girl</strong><br>
+        <a href="https://drive.google.com/file/d/1-t5kOWF-rIhJfM-3C0BXXFwo0Q8qG9FK/view?usp=sharing" target="_blank" class="vid-link" style="font-size:0.8rem; padding:5px 10px; margin-top:10px;">Open in Drive</a>
       </div>
-      <div class="vid-thumb" onclick="openVideo('YOUR_WINTERKILL_ID', 'Winterkill')" tabindex="0" role="button" aria-label="Watch Winterkill trailer">
-        <span style="font-size:2rem;">🎬</span><br>Winter<br>kill
+      <div class="vid-thumb">
+        <span style="font-size:2rem;">🎬</span><br>
+        <strong>Winterkill</strong><br>
+        <a href="https://drive.google.com/file/d/1B8VuraFRtyS9KPx35sA3OjApfJQaKo1-/view?usp=sharing" target="_blank" class="vid-link" style="font-size:0.8rem; padding:5px 10px; margin-top:10px;">Open in Drive</a>
       </div>
-      <div class="vid-thumb" onclick="openVideo('YOUR_TRAITORS_ID', 'Traitors Among Us')" tabindex="0" role="button" aria-label="Watch Traitors Among Us trailer">
-        <span style="font-size:2rem;">🎬</span><br>Traitors<br>Among Us
+      <div class="vid-thumb">
+        <span style="font-size:2rem;">🎬</span><br>
+        <strong>Traitors Among Us</strong><br>
+        <a href="https://drive.google.com/file/d/13M5WKN2vXuc0IeR24CHQd-Nd0b7RbBmO/view?usp=sharing" target="_blank" class="vid-link" style="font-size:0.8rem; padding:5px 10px; margin-top:10px;">Open in Drive</a>
       </div>
     </div>
 
-    <ul id="sortable-list" class="draggable-list" role="list" aria-label="Draggable ranking list"></ul>
+    <p style="margin-top:20px;"><strong>After watching all 5 trailers, drag to rank them (#1 is Best):</strong></p>
+    <ul id="sortable-list" class="draggable-list"></ul>
     
     <label for="trailerReflection" style="margin-top:20px;">Why is #1 your favorite? (15+ words)</label>
-    <textarea id="trailerReflection" rows="4" placeholder="I chose this trailer because..." aria-required="true"></textarea>
+    <textarea id="trailerReflection" rows="4" placeholder="I chose this trailer because..."></textarea>
   </section>
 
   <section id="step6" class="card">
     <h2>6. Ask the Author: Design Lab</h2>
-    <p>We have limited spots. Use this tool to design a high-quality question for the author visit on <strong>Wednesday, Feb 5th at 12:45 PM</strong>.</p>
+    <p>Design a question for the <strong>live author visit on Wednesday, Feb 5th at 12:45 PM</strong>.</p>
 
     <div id="design-step-1" class="scaffold-step active">
       <div style="margin-bottom:10px;"><span class="step-badge">Step 1</span> Choose a Topic</div>
-      <div id="topic-container" role="radiogroup" aria-label="Question topics">
-        <button class="topic-btn" onclick="selectTopic(this, 'Research')" role="radio" aria-checked="false">🔎 Research & History</button>
-        <button class="topic-btn" onclick="selectTopic(this, 'Characters')" role="radio" aria-checked="false">👤 Characters</button>
-        <button class="topic-btn" onclick="selectTopic(this, 'Writing')" role="radio" aria-checked="false">✍️ Writing Process</button>
-        <button class="topic-btn" onclick="selectTopic(this, 'Personal')" role="radio" aria-checked="false">🇺🇦 Personal Connection</button>
+      <div id="topic-container">
+        <button class="topic-btn" onclick="selectTopic(this, 'Research')">🔎 Research & History</button>
+        <button class="topic-btn" onclick="selectTopic(this, 'Characters')">👤 Characters</button>
+        <button class="topic-btn" onclick="selectTopic(this, 'Writing')">✍️ Writing Process</button>
+        <button class="topic-btn" onclick="selectTopic(this, 'Personal')">🇺🇦 Personal Connection</button>
       </div>
     </div>
 
     <div id="design-step-2" class="scaffold-step">
       <div style="margin-bottom:10px;"><span class="step-badge">Step 2</span> Choose an "Open" Opener</div>
       <p style="font-size:0.9rem; color:var(--text-muted)">Avoid "Yes/No" questions. Pick a starter:</p>
-      <select id="q-starter" onchange="unlockStep3()" aria-label="Question starter">
+      <select id="q-starter" onchange="unlockStep3()">
         <option value="">Select...</option>
         <option value="What inspired you to...">What inspired you to...</option>
         <option value="How did you decide...">How did you decide...</option>
@@ -422,19 +370,18 @@
 
     <div id="design-step-3" class="scaffold-step">
       <div style="margin-bottom:10px;"><span class="step-badge">Step 3</span> Draft & Refine</div>
-      <textarea id="authorQuestion" rows="4" placeholder="Complete your question here..." aria-required="true"></textarea>
+      <textarea id="authorQuestion" rows="4" placeholder="Complete your question here..."></textarea>
       
-      <div style="background:rgba(0,0,0,0.2); padding:15px; border-radius:8px; font-size:0.95rem; margin-top:10px;" role="status" aria-live="polite">
-        <div><span id="c-len" aria-label="Length requirement">❌</span> Length (> 10 words)</div>
-        <div><span id="c-topic" aria-label="Specificity requirement">❌</span> Includes specific detail (Ukraine, History, Book Name)</div>
+      <div style="background:rgba(0,0,0,0.2); padding:15px; border-radius:8px; font-size:0.95rem; margin-top:10px;">
+        <div><span id="c-len">❌</span> Length (> 10 words)</div>
+        <div><span id="c-topic">❌</span> Includes specific detail (Ukraine, History, Book Name)</div>
       </div>
     </div>
-
   </section>
 
   <div style="text-align: center; margin-bottom: 50px;">
     <button id="submitBtn" class="btn" style="width: 100%; max-width: 400px; font-size: 1.2rem;" disabled>Complete Steps to Submit</button>
-    <p id="submitStatus" class="hidden" style="margin-top: 15px; font-weight: bold; color: #10b981;" role="status" aria-live="polite"></p>
+    <p id="submitStatus" class="hidden" style="margin-top: 15px; font-weight: bold; color: #10b981;"></p>
   </div>
   
   <section id="leaderboardSection" class="card hidden">
@@ -453,19 +400,7 @@
 
 </div>
 
-<!-- Video Overlay -->
-<div id="videoOverlay" class="hidden" style="position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:1000; display:flex; flex-direction:column; justify-content:center; padding:20px;" role="dialog" aria-modal="true">
-  <div style="max-width:900px; width:100%; margin:0 auto; text-align:right;">
-    <button onclick="closeVideo()" class="btn" style="margin-bottom:10px;" aria-label="Close video overlay">Close X</button>
-    <div class="video-container">
-      <iframe id="overlayFrame" src="" aria-label="Book trailer video"></iframe>
-    </div>
-    <a id="overlayLink" href="#" target="_blank" class="vid-link" style="color:#fff; display:block; text-align:center; margin-top:10px; font-size:1rem;">Watch on YouTube</a>
-  </div>
-</div>
-
 <script>
-  // --- DATA CONFIGURATION ---
   const VIDEO_QUESTIONS = [
     { prompt: "What is the primary motivation for the author's writing topics?", choices: ["Giving voice to 'hidden history'", "Writing action novels", "Documenting modern politics", "Teaching geography"], correct: 0 },
     { prompt: "Which historical event is central to 'Winterkill'?", choices: ["The Holodomor (Famine)", "World War I", "The Cold War", "The Orange Revolution"], correct: 0 },
@@ -473,7 +408,6 @@
     { prompt: "The author mentions that history is often written by:", choices: ["The Victors", "The Losers", "The Librarians", "The Poets"], correct: 0 }
   ];
 
-  // NEW SCAVENGER HUNT QUESTIONS (4 questions based on author's website)
   const SCAVENGER_QUESTIONS = [
     { prompt: "What was Marsha's first published book?", choices: ["Silver Threads", "Making Bombs for Hitler", "Stolen Girl", "Don't Tell the Nazis"], correct: 0 },
     { prompt: "Which prestigious award has Marsha received for her writing?", choices: ["Order of Princess Olha", "Newbery Medal", "Pulitzer Prize", "Caldecott Medal"], correct: 0 },
@@ -481,94 +415,52 @@
     { prompt: "Marsha has dyslexia. What was the first book she read and understood?", choices: ["Oliver Twist by Charles Dickens", "Harry Potter", "The Hobbit", "Charlotte's Web"], correct: 0 }
   ];
 
-  // REPLACE THESE IDs WITH YOUR YOUTUBE VIDEO IDs
   const TRAILER_DATA = [
-    {id: 'YOUR_NAZIS_ID', title: "Don't Tell the Nazis"},
-    {id: 'YOUR_BOMBS_ID', title: "Making Bombs for Hitler"},
-    {id: 'YOUR_STOLEN_ID', title: "Stolen Girl"},
-    {id: 'YOUR_WINTERKILL_ID', title: "Winterkill"},
-    {id: 'YOUR_TRAITORS_ID', title: "Traitors Among Us"}
+    {id: '1S4vBzKrRaGljhNcHtqBvKepHXj4d00rM', title: "Don't Tell the Nazis"},
+    {id: '13EDr_MAf4v8sqAQXhApkPVXPHHOOnlyI', title: "Making Bombs for Hitler"},
+    {id: '1-t5kOWF-rIhJfM-3C0BXXFwo0Q8qG9FK', title: "Stolen Girl"},
+    {id: '1B8VuraFRtyS9KPx35sA3OjApfJQaKo1-', title: "Winterkill"},
+    {id: '13M5WKN2vXuc0IeR24CHQd-Nd0b7RbBmO', title: "Traitors Among Us"}
   ];
 
   let state = { videoScore: 0, scavengerScore: 0, trailerOrder: [], questionValid: false };
   let speechSynth = window.speechSynthesis;
-  let currentUtterance = null;
 
   window.onload = function() {
     renderQuiz('video-quiz-container', VIDEO_QUESTIONS, 'vid');
     renderQuiz('scavenger-quiz-container', SCAVENGER_QUESTIONS, 'scav');
     renderTrailerList();
     setupCoaching();
-    setupKeyboardNav();
     google.script.run.withSuccessHandler(renderLeaderboard).getLeaderboard();
   };
 
-  // --- ACCESSIBILITY FUNCTIONS ---
   function toggleHighContrast() {
     document.body.classList.toggle('high-contrast');
-    const btn = event.target;
-    btn.classList.toggle('active');
-    announce('High contrast mode ' + (document.body.classList.contains('high-contrast') ? 'enabled' : 'disabled'));
+    event.target.classList.toggle('active');
   }
 
   function toggleDyslexia() {
     document.body.classList.toggle('dyslexia-mode');
-    const btn = event.target;
-    btn.classList.toggle('active');
-    announce('Dyslexia-friendly font ' + (document.body.classList.contains('dyslexia-mode') ? 'enabled' : 'disabled'));
+    event.target.classList.toggle('active');
   }
 
   function toggleLargeText() {
     document.body.classList.toggle('large-text');
-    const btn = event.target;
-    btn.classList.toggle('active');
-    announce('Large text mode ' + (document.body.classList.contains('large-text') ? 'enabled' : 'disabled'));
+    event.target.classList.toggle('active');
   }
 
   function readAloud() {
-    if (speechSynth.speaking) {
-      speechSynth.cancel();
-    }
-    
+    if (speechSynth.speaking) speechSynth.cancel();
     const content = document.querySelector('.container').innerText;
-    currentUtterance = new SpeechSynthesisUtterance(content);
-    currentUtterance.rate = 0.9;
-    currentUtterance.pitch = 1;
-    currentUtterance.volume = 1;
-    
-    speechSynth.speak(currentUtterance);
-    announce('Reading page aloud');
+    const utterance = new SpeechSynthesisUtterance(content);
+    utterance.rate = 0.9;
+    speechSynth.speak(utterance);
   }
 
   function pauseSpeech() {
-    if (speechSynth.speaking) {
-      speechSynth.cancel();
-      announce('Reading stopped');
-    }
+    if (speechSynth.speaking) speechSynth.cancel();
   }
 
-  function announce(message) {
-    const announcement = document.createElement('div');
-    announcement.setAttribute('role', 'status');
-    announcement.setAttribute('aria-live', 'polite');
-    announcement.className = 'sr-only';
-    announcement.textContent = message;
-    document.body.appendChild(announcement);
-    setTimeout(() => announcement.remove(), 1000);
-  }
-
-  function setupKeyboardNav() {
-    document.querySelectorAll('.vid-thumb').forEach(thumb => {
-      thumb.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          thumb.click();
-        }
-      });
-    });
-  }
-
-  // --- RENDERING QUIZZES ---
   function renderQuiz(id, questions, prefix) {
     const container = document.getElementById(id);
     questions.forEach((q, idx) => {
@@ -579,33 +471,18 @@
         const btn = document.createElement('div');
         btn.className = `mcq-option ${prefix}-opt-${idx}`;
         btn.innerText = c.text;
-        btn.setAttribute('role', 'radio');
-        btn.setAttribute('tabindex', '0');
-        btn.setAttribute('aria-checked', 'false');
         btn.onclick = () => {
-          document.querySelectorAll(`.${prefix}-opt-${idx}`).forEach(e => {
-            e.classList.remove('selected');
-            e.setAttribute('aria-checked', 'false');
-          });
+          document.querySelectorAll(`.${prefix}-opt-${idx}`).forEach(e => e.classList.remove('selected'));
           btn.classList.add('selected');
-          btn.setAttribute('aria-checked', 'true');
           btn.dataset.correct = (c.orgIdx === q.correct);
           calcScore();
-          announce('Selected: ' + c.text);
         };
-        btn.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            btn.click();
-          }
-        });
         div.appendChild(btn);
       });
       container.appendChild(div);
     });
   }
 
-  // --- TRAILER LOGIC ---
   function renderTrailerList() {
     const list = document.getElementById('sortable-list');
     TRAILER_DATA.forEach((t, i) => {
@@ -613,8 +490,6 @@
       li.className = 'draggable-item'; 
       li.draggable = true; 
       li.dataset.id = t.id;
-      li.setAttribute('role', 'listitem');
-      li.setAttribute('aria-label', `Ranking position ${i+1}: ${t.title}`);
       li.innerHTML = `<span style="font-weight:bold; margin-right:10px;">#${i+1}</span> ${t.title} <span style="font-size:1.2rem;">☰</span>`;
       li.addEventListener('dragstart', () => li.classList.add('dragging'));
       li.addEventListener('dragend', () => { 
@@ -645,22 +520,8 @@
     state.trailerOrder = [];
     document.querySelectorAll('.draggable-item').forEach((item, i) => {
       item.querySelector('span').innerText = `#${i+1}`;
-      item.setAttribute('aria-label', `Ranking position ${i+1}: ${item.textContent.trim()}`);
       state.trailerOrder.push(item.dataset.id);
     });
-  }
-
-  function openVideo(videoId, title) {
-    document.getElementById('overlayFrame').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-    document.getElementById('overlayLink').href = `https://www.youtube.com/watch?v=${videoId}`;
-    document.getElementById('videoOverlay').classList.remove('hidden');
-    announce('Opening video: ' + title);
-  }
-
-  function closeVideo() {
-    document.getElementById('videoOverlay').classList.add('hidden');
-    document.getElementById('overlayFrame').src = "";
-    announce('Video closed');
   }
 
   function calcScore() {
@@ -674,16 +535,10 @@
     checkReady();
   }
 
-  // --- SCAFFOLDING / COACHING ---
   function selectTopic(btn, topic) {
-    document.querySelectorAll('.topic-btn').forEach(b => {
-      b.classList.remove('selected');
-      b.setAttribute('aria-checked', 'false');
-    });
+    document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
-    btn.setAttribute('aria-checked', 'true');
     document.getElementById('design-step-2').classList.add('active');
-    announce('Topic selected: ' + topic);
   }
 
   function unlockStep3() {
@@ -693,7 +548,6 @@
       const box = document.getElementById('authorQuestion');
       if(box.value.length < 5) box.value = val + " ";
       box.focus();
-      announce('Question starter selected. Complete your question.');
     }
   }
 
@@ -732,14 +586,12 @@
     if (fName && lName && period && vAns && sAns && refl && state.questionValid) {
       btn.disabled = false;
       btn.innerText = "✅ Submit Worksheet";
-      announce('All requirements complete. Ready to submit.');
     } else {
       btn.disabled = true;
       btn.innerText = "Complete All Tasks to Submit";
     }
   }
 
-  // --- SUBMIT ---
   document.getElementById('submitBtn').addEventListener('click', () => {
     const btn = document.getElementById('submitBtn');
     btn.disabled = true;
@@ -762,14 +614,12 @@
         document.getElementById('submitStatus').innerText = msg;
         document.getElementById('submitStatus').classList.remove('hidden');
         document.getElementById('leaderboardSection').classList.remove('hidden');
-        announce(msg);
         google.script.run.withSuccessHandler(renderLeaderboard).getLeaderboard();
       })
       .withFailureHandler(err => { 
         alert("Error: " + err); 
         btn.disabled = false; 
         btn.innerText = "Try Again";
-        announce('Submission failed: ' + err);
       })
       .submitWorksheet(payload);
   });
