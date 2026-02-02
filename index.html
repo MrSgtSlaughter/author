@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ukraine & Author Visit Interactive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=OpenDyslexic&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0f1218;
+      --bg-card: rgba(30, 34, 45, 0.7);
+      --ukraine-blue: #0057B7;
+      --ukraine-yellow: #FFDD00;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent: #3b82f6;
+      --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+      --font-main: 'Inter', system-ui, sans-serif;
+      --radius: 16px;
+      --text-size: 1rem;
+      --line-height: 1.6;
+    }
+
+    body.high-contrast {
+      --bg-dark: #000000;
+      --bg-card: #ffffff;
+      --text-main: #000000;
+      --text-muted: #000000;
+      --glass-border: 3px solid #000000;
+      --ukraine-blue: #0000ff;
+      --accent: #0000ff;
+      line-height: 2;
+      letter-spacing: 0.05em;
+    }
+
+    body.dyslexia-mode {
+      --font-main: 'OpenDyslexic', 'Comic Sans MS', sans-serif;
+      letter-spacing: 0.12em;
+      word-spacing: 0.16em;
+      line-height: 2;
+    }
+
+    body.large-text {
+      --text-size: 1.3rem;
+      --line-height: 2;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: radial-gradient(at 0% 0%, rgba(0, 87, 183, 0.2) 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, rgba(255, 221, 0, 0.15) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: var(--font-main);
+      margin: 0; padding: 0;
+      min-height: 100vh;
+      font-size: var(--text-size);
+      line-height: var(--line-height);
+    }
+    body.high-contrast { background-image: none; background: #fff; }
+
+    .access-toolbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: var(--bg-card);
+      border-bottom: var(--glass-border);
+      padding: 10px 20px;
+      display: flex; gap: 10px; flex-wrap: wrap;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+    body.high-contrast .access-toolbar { background: #f0f0f0; border-bottom: 3px solid #000; }
+
+    .access-btn {
+      background: var(--ukraine-blue);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .access-btn:hover { filter: brightness(1.2); transform: scale(1.05); }
+    .access-btn.active { background: var(--ukraine-yellow); color: #000; font-weight: bold; }
+
+    .container { max-width: 800px; margin: 60px auto 0; padding: 20px; }
+    
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 30px; padding-bottom: 20px; border-bottom: var(--glass-border);
+    }
+
+    h1, h2 { margin-top: 0; }
+    h2 { 
+      color: var(--accent); 
+      font-size: 1.4rem; 
+      padding-bottom: 5px; 
+      border-bottom: 2px solid transparent; 
+      display: inline-block; 
+    }
+    body.high-contrast h2 { border-bottom: 3px solid var(--ukraine-yellow); }
+
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: var(--glass-border);
+      border-radius: var(--radius);
+      padding: 2rem; margin-bottom: 2rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+    body.high-contrast .card { 
+      backdrop-filter: none; 
+      box-shadow: none; 
+      border: 3px solid #000;
+      background: #fff;
+    }
+
+    label { display: block; margin-bottom: 5px; font-weight: 600; }
+    input, select, textarea {
+      width: 100%; 
+      background: rgba(0,0,0,0.3); 
+      border: 1px solid #475569;
+      color: var(--text-main); 
+      padding: 12px; 
+      border-radius: 8px;
+      font-family: inherit; 
+      margin-bottom: 15px; 
+      font-size: var(--text-size); 
+      box-sizing: border-box;
+    }
+    body.high-contrast input, body.high-contrast select, body.high-contrast textarea {
+      background: #fff; border: 3px solid #000; color: #000;
+    }
+
+    .btn {
+      background: var(--ukraine-blue); color: white; border: none;
+      padding: 12px 24px; border-radius: 8px; font-weight: 600;
+      cursor: pointer; font-size: var(--text-size); 
+      text-decoration: none; display: inline-block;
+    }
+    .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-secondary { background: #334155; font-size: 0.9rem; padding: 8px 16px; }
+
+    .video-wrapper { margin-bottom: 20px; }
+    .video-container {
+      position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+      border-radius: 12px; background: #000; border: var(--glass-border);
+    }
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .vid-link { 
+      display: inline-block; 
+      margin-top: 8px; 
+      font-size: 0.85rem; 
+      color: var(--ukraine-yellow); 
+      text-decoration: underline; 
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .video-gallery { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+      gap: 15px; 
+      margin-bottom: 20px; 
+    }
+    .vid-thumb {
+      background: #1e293b; 
+      border-radius: 8px; 
+      padding: 20px 10px; 
+      text-align: center;
+      cursor: pointer; 
+      transition: all 0.2s; 
+      border: 2px solid transparent;
+      font-size: 0.9rem;
+    }
+    .vid-thumb:hover { 
+      background: #334155; 
+      transform: scale(1.05); 
+      border-color: var(--accent); 
+    }
+    .vid-thumb:focus {
+      outline: 3px solid var(--ukraine-yellow);
+      outline-offset: 2px;
+    }
+    body.high-contrast .vid-thumb { 
+      background: #f0f0f0; 
+      border: 3px solid #000; 
+      color: #000; 
+    }
+
+    .scaffold-container { border-left: 4px solid var(--ukraine-yellow); padding-left: 20px; margin-top: 20px; }
+    .scaffold-step { margin-bottom: 20px; opacity: 0.5; pointer-events: none; transition: opacity 0.3s; }
+    .scaffold-step.active { opacity: 1; pointer-events: all; }
+    .step-badge { 
+      background: var(--ukraine-yellow); 
+      color: #000; 
+      padding: 4px 12px; 
+      border-radius: 4px; 
+      font-weight: bold; 
+      margin-right: 8px; 
+      font-size: 0.9rem; 
+    }
+    
+    .topic-btn {
+      background: rgba(255,255,255,0.05); 
+      border: 2px solid var(--text-muted); 
+      color: var(--text-main);
+      padding: 12px 16px; 
+      margin: 5px; 
+      border-radius: 20px; 
+      cursor: pointer;
+      font-size: var(--text-size);
+    }
+    .topic-btn.selected { background: var(--ukraine-blue); border-color: var(--ukraine-blue); color: white; }
+    body.high-contrast .topic-btn { background: #fff; border: 3px solid #000; color: #000; }
+    body.high-contrast .topic-btn.selected { background: var(--ukraine-yellow); border: 3px solid #000; }
+
+    .mcq-option {
+      padding: 15px; margin: 10px 0; background: rgba(255,255,255,0.05);
+      border-radius: 8px; cursor: pointer; display: flex; align-items: center;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .mcq-option:hover { background: rgba(255,255,255,0.1); transform: translateX(5px); }
+    .mcq-option.selected { border-color: var(--ukraine-yellow); background: rgba(255, 221, 0, 0.1); }
+    .mcq-option:focus {
+      outline: 3px solid var(--ukraine-yellow);
+      outline-offset: 2px;
+    }
+    .mcq-option::before {
+      content: ''; width: 20px; height: 20px; border: 3px solid var(--text-muted);
+      border-radius: 50%; margin-right: 15px; flex-shrink: 0;
+    }
+    .mcq-option.selected::before { background: var(--ukraine-yellow); border-color: var(--ukraine-yellow); }
+    body.high-contrast .mcq-option { background: #f9f9f9; border: 3px solid #000; color: #000; }
+    body.high-contrast .mcq-option.selected { background: #ffff99; border: 4px solid #000; }
+
+    .draggable-list { list-style: none; padding: 0; }
+    .draggable-item {
+      background: rgba(255,255,255,0.05); 
+      margin-bottom: 10px; 
+      padding: 15px;
+      border-radius: 8px; 
+      display: flex; 
+      justify-content: space-between;
+      align-items: center; 
+      cursor: grab; 
+      border: 2px solid transparent;
+    }
+    .draggable-item:active { cursor: grabbing; border-color: var(--accent); }
+    body.high-contrast .draggable-item { background: #fff; border: 3px solid #000; color: #000; }
+
+    .hidden { display: none !important; }
+    
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    *:focus {
+      outline: 3px solid var(--ukraine-yellow);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Accessibility Toolbar -->
+<div class="access-toolbar" role="toolbar" aria-label="Accessibility Options">
+  <button class="access-btn" onclick="toggleHighContrast()" aria-label="Toggle high contrast mode">
+    🎨 High Contrast
+  </button>
+  <button class="access-btn" onclick="toggleDyslexia()" aria-label="Toggle dyslexia-friendly font">
+    📖 Dyslexia Font
+  </button>
+  <button class="access-btn" onclick="toggleLargeText()" aria-label="Toggle large text">
+    🔍 Large Text
+  </button>
+  <button class="access-btn" onclick="readAloud()" aria-label="Read page aloud">
+    🔊 Read Aloud
+  </button>
+  <button class="access-btn" onclick="pauseSpeech()" aria-label="Pause reading">
+    ⏸️ Pause
+  </button>
+</div>
+
+<div class="container">
+  <header>
+    <div>
+      <h1 style="margin:0;">Ukraine & Author Visit</h1>
+      <small style="color:var(--text-muted)">Grade 7 Interactive Worksheet</small>
+    </div>
+  </header>
+
+  <section id="step1" class="card">
+    <h2>1. Student Info</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div>
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" placeholder="Jane" aria-required="true">
+      </div>
+      <div>
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" placeholder="Doe" aria-required="true">
+      </div>
+    </div>
+    <label for="period">Class Period</label>
+    <select id="period" aria-required="true">
+      <option value="" disabled selected>Select hour...</option>
+      <option value="1st Hour">1st Hour</option>
+      <option value="2nd Hour">2nd Hour</option>
+      <option value="5th Hour">5th Hour</option>
+      <option value="6th Hour">6th Hour</option>
+    </select>
+  </section>
+
+  <section id="step2" class="card">
+    <h2>2. The Context</h2>
+    <p>Watch the video to understand the background of the author's work.</p>
+    
+    <div class="video-wrapper">
+      <div class="video-container">
+        <!-- 
+        REPLACE "YOUR_VIDEO_ID" WITH YOUR YOUTUBE VIDEO ID
+        To get ID: Look at YouTube URL like https://www.youtube.com/watch?v=dQw4w9WgXcQ
+        The ID is: dQw4w9WgXcQ (everything after v=)
+        -->
+        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen 
+                aria-label="Main introduction video">
+        </iframe>
+      </div>
+      <a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID" target="_blank" class="vid-link">
+        Trouble playing? Click here to watch on YouTube.
+      </a>
+    </div>
+
+    <div id="video-quiz-container" role="group" aria-labelledby="quiz-heading"></div>
+  </section>
+
+  <section id="step3" class="card">
+    <h2>3. Scavenger Hunt</h2>
+    <p>Explore the <a href="https://www.calla.com/wordpress/about-marsha/" target="_blank" style="color:var(--ukraine-yellow); font-weight:bold;">Author's Website</a> to find these answers.</p>
+    <div id="scavenger-quiz-container" role="group" aria-labelledby="scavenger-heading"></div>
+  </section>
+
+  <section id="step4" class="card">
+    <h2>4. Book Gallery</h2>
+    <p>Click buttons to preview the books on Scholastic.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+      <a href="https://shop.scholastic.com/parent-ecommerce/books/kidnapped-from-ukraine-1-under-attack-9781546104513.html" target="_blank" class="btn btn-secondary">📘 Under Attack</a>
+      <a href="https://shop.scholastic.com/parent-ecommerce/books/kidnapped-from-ukraine-2-standoff-9781546104544.html" target="_blank" class="btn btn-secondary">📘 Standoff</a>
+      <a href="https://shop.scholastic.com/parent-ecommerce/books/winterkill-9781338831412.html" target="_blank" class="btn btn-secondary">❄️ Winterkill</a>
+      <a href="https://shop.scholastic.com/teachers-ecommerce/teacher/books/dont-tell-the-nazis-9781338310535.html" target="_blank" class="btn btn-secondary">🤫 Don't Tell the Nazis</a>
+    </div>
+  </section>
+
+  <section id="step5" class="card">
+    <h2>5. Trailer Ranking</h2>
+    <p>1. Click thumbnails below to watch each book trailer.<br>2. After watching all 5, drag the list items to rank them (#1 is Best).</p>
+    
+    <div class="video-gallery" role="list">
+      <!-- REPLACE THESE VIDEO IDs WITH YOUR YOUTUBE VIDEO IDs -->
+      <div class="vid-thumb" onclick="openVideo('YOUR_NAZIS_ID', 'Don\'t Tell the Nazis')" tabindex="0" role="button" aria-label="Watch Don't Tell the Nazis trailer">
+        <span style="font-size:2rem;">🎬</span><br>Don't Tell<br>the Nazis
+      </div>
+      <div class="vid-thumb" onclick="openVideo('YOUR_BOMBS_ID', 'Making Bombs')" tabindex="0" role="button" aria-label="Watch Making Bombs for Hitler trailer">
+        <span style="font-size:2rem;">🎬</span><br>Making<br>Bombs
+      </div>
+      <div class="vid-thumb" onclick="openVideo('YOUR_STOLEN_ID', 'Stolen Girl')" tabindex="0" role="button" aria-label="Watch Stolen Girl trailer">
+        <span style="font-size:2rem;">🎬</span><br>Stolen<br>Girl
+      </div>
+      <div class="vid-thumb" onclick="openVideo('YOUR_WINTERKILL_ID', 'Winterkill')" tabindex="0" role="button" aria-label="Watch Winterkill trailer">
+        <span style="font-size:2rem;">🎬</span><br>Winter<br>kill
+      </div>
+      <div class="vid-thumb" onclick="openVideo('YOUR_TRAITORS_ID', 'Traitors Among Us')" tabindex="0" role="button" aria-label="Watch Traitors Among Us trailer">
+        <span style="font-size:2rem;">🎬</span><br>Traitors<br>Among Us
+      </div>
+    </div>
+
+    <ul id="sortable-list" class="draggable-list" role="list" aria-label="Draggable ranking list"></ul>
+    
+    <label for="trailerReflection" style="margin-top:20px;">Why is #1 your favorite? (15+ words)</label>
+    <textarea id="trailerReflection" rows="4" placeholder="I chose this trailer because..." aria-required="true"></textarea>
+  </section>
+
+  <section id="step6" class="card">
+    <h2>6. Ask the Author: Design Lab</h2>
+    <p>We have limited spots. Use this tool to design a high-quality question for the author visit on <strong>Wednesday, Feb 5th at 12:45 PM</strong>.</p>
+
+    <div id="design-step-1" class="scaffold-step active">
+      <div style="margin-bottom:10px;"><span class="step-badge">Step 1</span> Choose a Topic</div>
+      <div id="topic-container" role="radiogroup" aria-label="Question topics">
+        <button class="topic-btn" onclick="selectTopic(this, 'Research')" role="radio" aria-checked="false">🔎 Research & History</button>
+        <button class="topic-btn" onclick="selectTopic(this, 'Characters')" role="radio" aria-checked="false">👤 Characters</button>
+        <button class="topic-btn" onclick="selectTopic(this, 'Writing')" role="radio" aria-checked="false">✍️ Writing Process</button>
+        <button class="topic-btn" onclick="selectTopic(this, 'Personal')" role="radio" aria-checked="false">🇺🇦 Personal Connection</button>
+      </div>
+    </div>
+
+    <div id="design-step-2" class="scaffold-step">
+      <div style="margin-bottom:10px;"><span class="step-badge">Step 2</span> Choose an "Open" Opener</div>
+      <p style="font-size:0.9rem; color:var(--text-muted)">Avoid "Yes/No" questions. Pick a starter:</p>
+      <select id="q-starter" onchange="unlockStep3()" aria-label="Question starter">
+        <option value="">Select...</option>
+        <option value="What inspired you to...">What inspired you to...</option>
+        <option value="How did you decide...">How did you decide...</option>
+        <option value="Why did you choose...">Why did you choose...</option>
+        <option value="In what way did...">In what way did...</option>
+        <option value="Can you explain how...">Can you explain how...</option>
+      </select>
+    </div>
+
+    <div id="design-step-3" class="scaffold-step">
+      <div style="margin-bottom:10px;"><span class="step-badge">Step 3</span> Draft & Refine</div>
+      <textarea id="authorQuestion" rows="4" placeholder="Complete your question here..." aria-required="true"></textarea>
+      
+      <div style="background:rgba(0,0,0,0.2); padding:15px; border-radius:8px; font-size:0.95rem; margin-top:10px;" role="status" aria-live="polite">
+        <div><span id="c-len" aria-label="Length requirement">❌</span> Length (> 10 words)</div>
+        <div><span id="c-topic" aria-label="Specificity requirement">❌</span> Includes specific detail (Ukraine, History, Book Name)</div>
+      </div>
+    </div>
+
+  </section>
+
+  <div style="text-align: center; margin-bottom: 50px;">
+    <button id="submitBtn" class="btn" style="width: 100%; max-width: 400px; font-size: 1.2rem;" disabled>Complete Steps to Submit</button>
+    <p id="submitStatus" class="hidden" style="margin-top: 15px; font-weight: bold; color: #10b981;" role="status" aria-live="polite"></p>
+  </div>
+  
+  <section id="leaderboardSection" class="card hidden">
+    <h2>🏆 Live Leaderboard</h2>
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="text-align:left; border-bottom:2px solid #777;">
+          <th style="padding:10px;">Rank</th>
+          <th>Name</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboardBody"></tbody>
+    </table>
+  </section>
+
+</div>
+
+<!-- Video Overlay -->
+<div id="videoOverlay" class="hidden" style="position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:1000; display:flex; flex-direction:column; justify-content:center; padding:20px;" role="dialog" aria-modal="true">
+  <div style="max-width:900px; width:100%; margin:0 auto; text-align:right;">
+    <button onclick="closeVideo()" class="btn" style="margin-bottom:10px;" aria-label="Close video overlay">Close X</button>
+    <div class="video-container">
+      <iframe id="overlayFrame" src="" aria-label="Book trailer video"></iframe>
+    </div>
+    <a id="overlayLink" href="#" target="_blank" class="vid-link" style="color:#fff; display:block; text-align:center; margin-top:10px; font-size:1rem;">Watch on YouTube</a>
+  </div>
+</div>
+
+<script>
+  // --- DATA CONFIGURATION ---
+  const VIDEO_QUESTIONS = [
+    { prompt: "What is the primary motivation for the author's writing topics?", choices: ["Giving voice to 'hidden history'", "Writing action novels", "Documenting modern politics", "Teaching geography"], correct: 0 },
+    { prompt: "Which historical event is central to 'Winterkill'?", choices: ["The Holodomor (Famine)", "World War I", "The Cold War", "The Orange Revolution"], correct: 0 },
+    { prompt: "Who is the primary audience for these books?", choices: ["Middle Grade / Young Adult", "University Professors", "Preschoolers", "Retired Historians"], correct: 0 },
+    { prompt: "The author mentions that history is often written by:", choices: ["The Victors", "The Losers", "The Librarians", "The Poets"], correct: 0 }
+  ];
+
+  // NEW SCAVENGER HUNT QUESTIONS (4 questions based on author's website)
+  const SCAVENGER_QUESTIONS = [
+    { prompt: "What was Marsha's first published book?", choices: ["Silver Threads", "Making Bombs for Hitler", "Stolen Girl", "Don't Tell the Nazis"], correct: 0 },
+    { prompt: "Which prestigious award has Marsha received for her writing?", choices: ["Order of Princess Olha", "Newbery Medal", "Pulitzer Prize", "Caldecott Medal"], correct: 0 },
+    { prompt: "Where does Marsha Forchuk Skrypuch live?", choices: ["Brantford, Ontario", "Kyiv, Ukraine", "New York City", "London, England"], correct: 0 },
+    { prompt: "Marsha has dyslexia. What was the first book she read and understood?", choices: ["Oliver Twist by Charles Dickens", "Harry Potter", "The Hobbit", "Charlotte's Web"], correct: 0 }
+  ];
+
+  // REPLACE THESE IDs WITH YOUR YOUTUBE VIDEO IDs
+  const TRAILER_DATA = [
+    {id: 'YOUR_NAZIS_ID', title: "Don't Tell the Nazis"},
+    {id: 'YOUR_BOMBS_ID', title: "Making Bombs for Hitler"},
+    {id: 'YOUR_STOLEN_ID', title: "Stolen Girl"},
+    {id: 'YOUR_WINTERKILL_ID', title: "Winterkill"},
+    {id: 'YOUR_TRAITORS_ID', title: "Traitors Among Us"}
+  ];
+
+  let state = { videoScore: 0, scavengerScore: 0, trailerOrder: [], questionValid: false };
+  let speechSynth = window.speechSynthesis;
+  let currentUtterance = null;
+
+  window.onload = function() {
+    renderQuiz('video-quiz-container', VIDEO_QUESTIONS, 'vid');
+    renderQuiz('scavenger-quiz-container', SCAVENGER_QUESTIONS, 'scav');
+    renderTrailerList();
+    setupCoaching();
+    setupKeyboardNav();
+    google.script.run.withSuccessHandler(renderLeaderboard).getLeaderboard();
+  };
+
+  // --- ACCESSIBILITY FUNCTIONS ---
+  function toggleHighContrast() {
+    document.body.classList.toggle('high-contrast');
+    const btn = event.target;
+    btn.classList.toggle('active');
+    announce('High contrast mode ' + (document.body.classList.contains('high-contrast') ? 'enabled' : 'disabled'));
+  }
+
+  function toggleDyslexia() {
+    document.body.classList.toggle('dyslexia-mode');
+    const btn = event.target;
+    btn.classList.toggle('active');
+    announce('Dyslexia-friendly font ' + (document.body.classList.contains('dyslexia-mode') ? 'enabled' : 'disabled'));
+  }
+
+  function toggleLargeText() {
+    document.body.classList.toggle('large-text');
+    const btn = event.target;
+    btn.classList.toggle('active');
+    announce('Large text mode ' + (document.body.classList.contains('large-text') ? 'enabled' : 'disabled'));
+  }
+
+  function readAloud() {
+    if (speechSynth.speaking) {
+      speechSynth.cancel();
+    }
+    
+    const content = document.querySelector('.container').innerText;
+    currentUtterance = new SpeechSynthesisUtterance(content);
+    currentUtterance.rate = 0.9;
+    currentUtterance.pitch = 1;
+    currentUtterance.volume = 1;
+    
+    speechSynth.speak(currentUtterance);
+    announce('Reading page aloud');
+  }
+
+  function pauseSpeech() {
+    if (speechSynth.speaking) {
+      speechSynth.cancel();
+      announce('Reading stopped');
+    }
+  }
+
+  function announce(message) {
+    const announcement = document.createElement('div');
+    announcement.setAttribute('role', 'status');
+    announcement.setAttribute('aria-live', 'polite');
+    announcement.className = 'sr-only';
+    announcement.textContent = message;
+    document.body.appendChild(announcement);
+    setTimeout(() => announcement.remove(), 1000);
+  }
+
+  function setupKeyboardNav() {
+    document.querySelectorAll('.vid-thumb').forEach(thumb => {
+      thumb.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          thumb.click();
+        }
+      });
+    });
+  }
+
+  // --- RENDERING QUIZZES ---
+  function renderQuiz(id, questions, prefix) {
+    const container = document.getElementById(id);
+    questions.forEach((q, idx) => {
+      let choices = q.choices.map((t, i) => ({text: t, orgIdx: i})).sort(() => Math.random() - 0.5);
+      const div = document.createElement('div');
+      div.innerHTML = `<p style="font-weight:bold; margin-bottom:10px; margin-top:20px;">${idx+1}. ${q.prompt}</p>`;
+      choices.forEach(c => {
+        const btn = document.createElement('div');
+        btn.className = `mcq-option ${prefix}-opt-${idx}`;
+        btn.innerText = c.text;
+        btn.setAttribute('role', 'radio');
+        btn.setAttribute('tabindex', '0');
+        btn.setAttribute('aria-checked', 'false');
+        btn.onclick = () => {
+          document.querySelectorAll(`.${prefix}-opt-${idx}`).forEach(e => {
+            e.classList.remove('selected');
+            e.setAttribute('aria-checked', 'false');
+          });
+          btn.classList.add('selected');
+          btn.setAttribute('aria-checked', 'true');
+          btn.dataset.correct = (c.orgIdx === q.correct);
+          calcScore();
+          announce('Selected: ' + c.text);
+        };
+        btn.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            btn.click();
+          }
+        });
+        div.appendChild(btn);
+      });
+      container.appendChild(div);
+    });
+  }
+
+  // --- TRAILER LOGIC ---
+  function renderTrailerList() {
+    const list = document.getElementById('sortable-list');
+    TRAILER_DATA.forEach((t, i) => {
+      const li = document.createElement('li');
+      li.className = 'draggable-item'; 
+      li.draggable = true; 
+      li.dataset.id = t.id;
+      li.setAttribute('role', 'listitem');
+      li.setAttribute('aria-label', `Ranking position ${i+1}: ${t.title}`);
+      li.innerHTML = `<span style="font-weight:bold; margin-right:10px;">#${i+1}</span> ${t.title} <span style="font-size:1.2rem;">☰</span>`;
+      li.addEventListener('dragstart', () => li.classList.add('dragging'));
+      li.addEventListener('dragend', () => { 
+        li.classList.remove('dragging'); 
+        updateRanks(); 
+      });
+      list.appendChild(li);
+    });
+    list.addEventListener('dragover', e => {
+      e.preventDefault();
+      const after = getDragAfter(list, e.clientY);
+      const drag = document.querySelector('.dragging');
+      if (!after) list.appendChild(drag); 
+      else list.insertBefore(drag, after);
+    });
+    updateRanks();
+  }
+
+  function getDragAfter(container, y) {
+    return [...container.querySelectorAll('.draggable-item:not(.dragging)')].reduce((closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      return (offset < 0 && offset > closest.offset) ? {offset, element: child} : closest;
+    }, {offset: Number.NEGATIVE_INFINITY}).element;
+  }
+
+  function updateRanks() {
+    state.trailerOrder = [];
+    document.querySelectorAll('.draggable-item').forEach((item, i) => {
+      item.querySelector('span').innerText = `#${i+1}`;
+      item.setAttribute('aria-label', `Ranking position ${i+1}: ${item.textContent.trim()}`);
+      state.trailerOrder.push(item.dataset.id);
+    });
+  }
+
+  function openVideo(videoId, title) {
+    document.getElementById('overlayFrame').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    document.getElementById('overlayLink').href = `https://www.youtube.com/watch?v=${videoId}`;
+    document.getElementById('videoOverlay').classList.remove('hidden');
+    announce('Opening video: ' + title);
+  }
+
+  function closeVideo() {
+    document.getElementById('videoOverlay').classList.add('hidden');
+    document.getElementById('overlayFrame').src = "";
+    announce('Video closed');
+  }
+
+  function calcScore() {
+    let v = 0, s = 0;
+    document.querySelectorAll('.mcq-option.selected').forEach(el => {
+      if(el.className.includes('vid') && el.dataset.correct === 'true') v += 10;
+      if(el.className.includes('scav') && el.dataset.correct === 'true') s += 10;
+    });
+    state.videoScore = v;
+    state.scavengerScore = s;
+    checkReady();
+  }
+
+  // --- SCAFFOLDING / COACHING ---
+  function selectTopic(btn, topic) {
+    document.querySelectorAll('.topic-btn').forEach(b => {
+      b.classList.remove('selected');
+      b.setAttribute('aria-checked', 'false');
+    });
+    btn.classList.add('selected');
+    btn.setAttribute('aria-checked', 'true');
+    document.getElementById('design-step-2').classList.add('active');
+    announce('Topic selected: ' + topic);
+  }
+
+  function unlockStep3() {
+    const val = document.getElementById('q-starter').value;
+    if(val) {
+      document.getElementById('design-step-3').classList.add('active');
+      const box = document.getElementById('authorQuestion');
+      if(box.value.length < 5) box.value = val + " ";
+      box.focus();
+      announce('Question starter selected. Complete your question.');
+    }
+  }
+
+  function setupCoaching() {
+    const qIn = document.getElementById('authorQuestion');
+    const rIn = document.getElementById('trailerReflection');
+    
+    const check = () => {
+      const txt = qIn.value.trim();
+      const lenOk = txt.split(/\s+/).length >= 10;
+      const specOk = /(ukraine|book|history|war|research|character|soviet|inspiration|family|writing|winterkill|nazis|stolen|bombs|traitors|holodomor|famine)/i.test(txt);
+
+      document.getElementById('c-len').innerHTML = lenOk ? '✅' : '❌';
+      document.getElementById('c-topic').innerHTML = specOk ? '✅' : '❌';
+      
+      state.questionValid = (lenOk && specOk);
+      checkReady();
+    };
+
+    qIn.addEventListener('input', check);
+    rIn.addEventListener('input', checkReady);
+    document.getElementById('firstName').addEventListener('input', checkReady);
+    document.getElementById('lastName').addEventListener('input', checkReady);
+    document.getElementById('period').addEventListener('change', checkReady);
+  }
+
+  function checkReady() {
+    const fName = document.getElementById('firstName').value;
+    const lName = document.getElementById('lastName').value;
+    const period = document.getElementById('period').value;
+    const refl = document.getElementById('trailerReflection').value.split(/\s+/).length >= 15;
+    const vAns = document.querySelectorAll('[class*="vid-opt"].selected').length === VIDEO_QUESTIONS.length;
+    const sAns = document.querySelectorAll('[class*="scav-opt"].selected').length === SCAVENGER_QUESTIONS.length;
+
+    const btn = document.getElementById('submitBtn');
+    if (fName && lName && period && vAns && sAns && refl && state.questionValid) {
+      btn.disabled = false;
+      btn.innerText = "✅ Submit Worksheet";
+      announce('All requirements complete. Ready to submit.');
+    } else {
+      btn.disabled = true;
+      btn.innerText = "Complete All Tasks to Submit";
+    }
+  }
+
+  // --- SUBMIT ---
+  document.getElementById('submitBtn').addEventListener('click', () => {
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerText = "⏳ Sending...";
+    
+    const payload = {
+      firstName: document.getElementById('firstName').value,
+      lastName: document.getElementById('lastName').value,
+      period: document.getElementById('period').value,
+      videoScore: state.videoScore,
+      scavengerScore: state.scavengerScore,
+      trailerOrder: state.trailerOrder.join(','),
+      trailerReflection: document.getElementById('trailerReflection').value,
+      authorQuestion: document.getElementById('authorQuestion').value
+    };
+
+    google.script.run
+      .withSuccessHandler(res => {
+        const msg = `✅ Success! Rank: #${res.rank} | Score: ${res.totalScore}`;
+        document.getElementById('submitStatus').innerText = msg;
+        document.getElementById('submitStatus').classList.remove('hidden');
+        document.getElementById('leaderboardSection').classList.remove('hidden');
+        announce(msg);
+        google.script.run.withSuccessHandler(renderLeaderboard).getLeaderboard();
+      })
+      .withFailureHandler(err => { 
+        alert("Error: " + err); 
+        btn.disabled = false; 
+        btn.innerText = "Try Again";
+        announce('Submission failed: ' + err);
+      })
+      .submitWorksheet(payload);
+  });
+
+  function renderLeaderboard(data) {
+    const tbody = document.getElementById('leaderboardBody');
+    tbody.innerHTML = '';
+    data.forEach((row, i) => {
+      const tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid #333';
+      if(i===0) tr.style.color = 'var(--ukraine-yellow)';
+      tr.innerHTML = `<td style="padding:10px;">#${i+1}</td><td>${row.name}</td><td>${row.score}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+</script>
+</body>
+</html>
